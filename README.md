@@ -1,10 +1,6 @@
 # co2_graph
 This Program subscribes a 32 Bit Integar and displays the values in a highly cusomizable graph using the python Library opencv2.
 
-## Table of contents
-
-[I'm an inline-style link](https://github.com/CJT-Robotics/co2_graph/edit/main/README.md##the-parameters)
-
 ## Tutorial
 
   1. Direct to your catkin-workspace.
