@@ -3,7 +3,7 @@ This Program subscribes a 32 Bit Integar and displays the values in a highly cus
 
 ## Table of contents
 
-[I'm an inline-style link](https://github.com/CJT-Robotics/co2_graph/edit/main/README.md#the-parameters)
+[I'm an inline-style link](https://github.com/CJT-Robotics/co2_graph/edit/main/README.md##the-parameters)
 
 ## Tutorial
 
