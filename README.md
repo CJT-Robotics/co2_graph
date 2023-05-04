@@ -55,16 +55,40 @@ This Program subscribes a 32 Bit Integar and displays the values in a highly cus
   the x-spacing between two values in the displayed Graph in px
 
   ```python
-  self.window_width
+  for m in get_monitors():
+    if(m.is_primary):
+      self.window_width = m.width
   ```
-  sets the width of the displayed window according to the the width of your primary monitor. If you have more than one Monitor connected and want the graph to be displayed at the second monitor, just add a not in front of ```m.is_primary``` so that it reads ```if(not m.is_primary):``` in line 35. In case you use more than two monitors and want the Window to be displayed at the third (or higher) Monitor you have to add the line ```print(m.name)``` below the line ```for m in get_monitors():```. When you execute the node you get a list of the names of the monitors afterwards you can remove the added line again and change ```if(m.is_primary):``` to ```if(m.name == <the Name of the desired Monitor>):```
+  sets the width of the displayed window according to the the width of your primary monitor. If you have more than one Monitor connected and want the graph to be displayed at the second monitor, just add a ```not``` in front of ```m.is_primary``` so that it reads ```if(not m.is_primary):```. In case you use more than two monitors and want the Window to be displayed at the third (or higher) Monitor you have to add the line ```print(m.name)``` below the line ```for m in get_monitors():```. When you execute the node you get a list of the names of the monitors afterwards you can remove the added line again and change ```if(m.is_primary):``` to ```if(m.name == <the Name of the desired Monitor>):```
   
   ```python
   self.window_x
   ```
-  the x-Position of the displayed Window
+  the x-Position of the displayed Window. Is set automatically so display the window in the bottom of the screen
   
   ```python
   self.window_y
   ```
-  the y-Position of the displayed Window
+  the y-Position of the displayed Window. Is set automatically so display the window in the bottom of the screen
+  
+  ```pyhton
+  self.disc_factor
+  ```
+  the factor the added values get multiplied with, also known as the y-dilation of the Graph 
+  
+  ```python
+  self.values
+  ```
+  the array the imported values are saved in. It's two Dimensional: 1. Slot: the value as int  2.Slot: the timestamp when the value is added. Beispiel value[index][0] = value; value[index][1] = timestamp
+  
+  ```pyhton
+  self.scaled_image
+  ```
+  the image that has the scale on it 
+  
+  now in the drawScale-Method
+  ```python
+  hor_lines
+  ```
+  the amount of horizontal Lines that are 
+  
