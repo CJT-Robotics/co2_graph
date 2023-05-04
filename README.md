@@ -57,7 +57,7 @@ This Program subscribes a 32 Bit Integar and displays the values in a highly cus
   ```python
   self.window_width
   ```
-  sets the width of the displayed window according to the the width of your primary monitor. If you have more than one Monitor connected and want the graph to be displayed at the second monitor, just add a not in front of ```m.is_primary``` so that it reads ```if(not m.is_primary):``` in line 35. In case you use more than two monitors and want the Window to be displayed at the third (or higher) Monitor you have to add the line ```print(m.name)``` below the line ```for m in get_monitors():```. When you execute the node you get a list of the names of the monitors
+  sets the width of the displayed window according to the the width of your primary monitor. If you have more than one Monitor connected and want the graph to be displayed at the second monitor, just add a not in front of ```m.is_primary``` so that it reads ```if(not m.is_primary):``` in line 35. In case you use more than two monitors and want the Window to be displayed at the third (or higher) Monitor you have to add the line ```print(m.name)``` below the line ```for m in get_monitors():```. When you execute the node you get a list of the names of the monitors afterwards you can remove the added line again and change ```if(m.is_primary):``` to ```if(m.name == <the Name of the desired Monitor>):```
   
   ```python
   self.window_x
