@@ -1,6 +1,10 @@
 # co2_graph
 This Program subscribes a 32 Bit Integar and displays the values in a highly cusomizable graph using the python Library opencv2.
 
+## Table of contents
+
+[https://github.com/CJT-Robotics/co2_graph/edit/main/README.md#tutorial](https://github.com/CJT-Robotics/co2_graph/edit/main/README.md#the-parameters)
+
 ## Tutorial
 
   1. Direct to your catkin-workspace.
@@ -127,7 +131,7 @@ This Program subscribes a 32 Bit Integar and displays the values in a highly cus
   
   ### class subscriber:
   #### __init__ - Method:
-  this Method runs when an object of this class is created 
+  this Method runs, when an object of this class is created 
   ```python
   rospy.init_node('co2_graph', anonymous=True)
   ```
@@ -138,3 +142,70 @@ This Program subscribes a 32 Bit Integar and displays the values in a highly cus
   ```
   subscribes to the topic ```/cjt/co2``` this might be different depending on your ROS_Namespace. to Check the name of your topic, start the node that publishes the co2-values and type ```rostopic list```. The ```Int32``` means, that the node will only react to published messages that have the type ```Int32```. ```grph.addValue``` is the name of the Function that is called if a Message of the right datatype is recieved. In this case the ```addValue``` Method is located in the class graph, what is indicated by the prefix ```grph.```, that is the name of the Object initialized before.
 
+  ```python
+  rospy.spin()
+  ```
+  keeps python from exiting the program until the node is stopped.
+  
+  ### class graph:
+  #### __init__ - Method:
+  this Method runs, when an Object of this class is created
+  this Method declares the Parameters needed for thr Graph. It also starts the procces of drawing the scale to the image
+  
+  ```python
+  for m in get_monitors():
+    if(m.is_primary):
+      self.window_width = m.width
+      self.window_y = m.height - self.window_height
+  ```
+  this loops through all monitors connected and checks if the current monitor is the primary one. If this is the case, the parameters are set according to the specs of the Monitor
+  
+  #### draw-Scale -  Method:
+  
+  ```python
+  cv2.line(self.scaled_image,(0,self.graph_height),(self.window_width,self.graph_height),self.scale_color,2)
+  ```
+  uses opencv2 to draw the horizontal line that seperates the the are of the graph and the area where the timestamps are displayed. The Parameters given are:
+  - ```self.scaled_image```: the image in which the line is drawn
+  - ```(0,self.graph_height)```: the start position of the line as Tupel
+  - ```(self.window_width,self.graph_height)```: the end postion of the line as Tupel
+  - ```self.scale_color```: the color of the line as Tupel in the BGR format
+  - ```2```: the Thickness of the line
+
+  ``` python
+  for i in range(1,hor_lines):
+    cv2.line(self.scaled_image,(0,i*hor_line_factor),(self.window_width,i*hor_line_factor),self.scale_color,1)
+    value = str(int(self.max_co2_level - ((i*hor_line_factor)/self.disc_factor))) + 'ppm'
+    cv2.putText(self.scaled_image,value,(5,i*hor_line_factor-5),cv2.FONT_HERSHEY_SIMPLEX,0.5,self.scale_color,1)
+    cv2.putText(self.scaled_image,value,(self.window_width - 90,i*hor_line_factor-5),cv2.FONT_HERSHEY_SIMPLEX,0.5,self.scale_color,1)
+  ```
+  this loops through the amount of horizontal lines set before. the y-value of the lines is calculated by multiplying the index with the distance between the lines that was set as a Parameter. The x-values are both sides of the window.
+  
+  ```python
+  cv2.line(self.scaled_image,(0,i*hor_line_factor),(self.window_width,i*hor_line_factor),self.scale_color,1)
+  ```
+  draws the horizontal line. For explanation of the Parameters see above.
+  
+  ```
+  value = str(int(self.max_co2_level - ((i*hor_line_factor)/self.disc_factor))) + 'ppm'
+  ```
+  calculates the value that is used to label the line just drawn. This is done by calculation the distance to the top of the image in px, this distance is convertet to ppm and substracted from the max co2 level. At the end the unit ppm is added.
+  
+  ```python
+  cv2.putText(self.scaled_image,value,(5,i*hor_line_factor-5),cv2.FONT_HERSHEY_SIMPLEX,0.5,self.scale_color,1)
+  cv2.putText(self.scaled_image,value,(self.window_width - 90,i*hor_line_factor-5),cv2.FONT_HERSHEY_SIMPLEX,0.5,self.scale_color,1)
+  ```
+  places the calculated value on the lines. The Parameters given are:
+  - ```self.scaled_image```: the image that the text is put to
+  - ```value```: the text that is put in the Image. Must be a String
+  - ```(self.window_width - 90,i*hor_line_factor-5)```: The bottom-left position of the Text as Tupel
+  - ```cv2.FONT_HERSHEY_SIMPLEX```: the font of the text
+  - ```0.5```: the scale of the text
+  - ```self.scale_color```: the color of the text as Tupel in the BGR format
+  - ```1```: the line_thicknes of the text
+  
+  ```python
+  for i in range (1,self.vert_lines):
+    cv2.line(self.scaled_image,(i*self.vert_line_factor,self.graph_height),(i*self.vert_line_factor,self.graph_height + 10),self.scale_color,1)
+  ```
+  draws small vertical lines that indicate the position of the timestamps. This is done by looping though the number of verical lines set before and multipy the index with the amount of pixels between the lines. 
