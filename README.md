@@ -107,9 +107,27 @@ This Program subscribes a 32 Bit Integar and displays the values in a highly cus
   the distance between two timestamps in px
   
 ## The Code Explained
+  ### The "main-Method":
+  ```python
+  if __name__ == '__main__':
+    grph = graph()
+    sub = subscriber()
+  ```
+  This block of code is executed when the Program is launched.
+  
+  ```python
+  grph = graph()
+  ```
+  initializes on object of the class graph that is called grph
+  
+  ```python
+  sub = subscriber()
+  ```
+  initializes on object of the class subscriber that is called sub
+  
   ### class subscriber:
   #### __init__ - Method:
-  
+  this Method runs when an object of this class is created 
   ```python
   rospy.init_node('co2_graph', anonymous=True)
   ```
@@ -118,4 +136,5 @@ This Program subscribes a 32 Bit Integar and displays the values in a highly cus
   ```python
   rospy.Subscriber("/cjt/co2", Int32, grph.addValue)
   ```
-  subscribes to the topic ```/cjt/co2``` this might be different depending on your ROS_Namespace. to Check the name of your topic, start the node that publishes the co2-values and type ```rostopic list```. The ```Int32``` means, that the node will only react to published messages that have the type ```Int32```. ```grph.addValue``` is the name of the Function that is called if a Message of the right datatype is recieved. In this case the ```addValue``` Method is located in the class graph. thats 
+  subscribes to the topic ```/cjt/co2``` this might be different depending on your ROS_Namespace. to Check the name of your topic, start the node that publishes the co2-values and type ```rostopic list```. The ```Int32``` means, that the node will only react to published messages that have the type ```Int32```. ```grph.addValue``` is the name of the Function that is called if a Message of the right datatype is recieved. In this case the ```addValue``` Method is located in the class graph, what is indicated by the prefix ```grph.```, that is the name of the Object initialized before.
+
