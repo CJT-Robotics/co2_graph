@@ -17,8 +17,7 @@ This Program subscribes a 32 Bit Integar and displays the values in a highly cus
   catkin_make
   ```
   
-## Dokumentation
-  ### The parameters
+## The parameters
   ```python
   self.graph_height
   ```
@@ -86,9 +85,37 @@ This Program subscribes a 32 Bit Integar and displays the values in a highly cus
   ```
   the image that has the scale on it 
   
-  now in the drawScale-Method
+  ### now in the drawScale-Method
   ```python
   hor_lines
   ```
-  the amount of horizontal Lines that are 
+  the amount of horizontal Lines that are drawn in the scaling-image. The value must be 2 higher than the desited amount of lines
   
+  ```pyhton
+  hor_line_factor
+  ```
+  the distance between two lines in px
+  
+  ```python
+  self.vert_lines
+  ```
+  the amount of timestamps in the graph. Must be one higher than the desired amount
+  
+  ```python
+  self.vert_line_factor
+  ```
+  the distance between two timestamps in px
+  
+## The Code Explained
+  ### class subscriber:
+  #### __init__ - Method:
+  
+  ```python
+  rospy.init_node('co2_graph', anonymous=True)
+  ```
+  inits the ```co2_graph``` ROS_node that will be named unique due to the ```anonymous=True``` Flag. The Unique name is important as ROS doesn't allow multiple nodes to have the same names. If this would happen, the older node would be closed.
+  
+  ```python
+  rospy.Subscriber("/cjt/co2", Int32, grph.addValue)
+  ```
+  subscribes to the topic ```/cjt/co2``` this might be different depending on your ROS_Namespace. to Check the name of your topic, start the node that publishes the co2-values and type ```rostopic list```. The ```Int32``` means, that the node will only react to published messages that have the type ```Int32```. ```grph.addValue``` is the name of the Function that is called if a Message of the right datatype is recieved. In this case the ```addValue``` Method is located in the class graph. thats 
