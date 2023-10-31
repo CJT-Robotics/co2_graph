@@ -212,33 +212,49 @@ This Program subscribes a 32 Bit Integar and displays the values in a highly cus
 
 the Method that subscribes the topic of the Value that is to be listed in the Graph, in this case to co2 Level.
 
-```value = data.data```: save the subscribed value to a loval variable to work with it
+```python
+value = data.data
+```
+save the subscribed value to a loval variable to work with it
 
 ```python
-   if(self.num_values < int(self.window_width/self.pix_between_value)):
-            self.values.append((value,strftime("%M.%S", gmtime()))) 
-            self.num_values += 1 
+if(self.num_values < int(self.window_width/self.pix_between_value)):
+  self.values.append((value,strftime("%M.%S", gmtime()))) 
+  self.num_values += 1 
 ```
 When the array is not full yet, the recieved value is added at the and of the array and the variable to keep track of the amount of values is increased
 
 ``` python
 else:
-            for i in range(self.num_values-1):
-                self.values[i] = self.values[i+1]   #assign each value of the array to the slot in front of it
-            self.values[self.num_values-1] = (value,strftime("%M.%S", gmtime()))
+  for i in range(self.num_values-1):
+    self.values[i] = self.values[i+1]   #assign each value of the array to the slot in front of it
+  self.values[self.num_values-1] = (value,strftime("%M.%S", gmtime()))
 ```
 When the max amount of values is reached, all values stored in the array are put in the slot before them and the received message is put in the last slot
   
-```self.drawGraph()``` repaints the Graph with refreshed values
+```python
+self.drawGraph()
+```
+repaints the Graph with refreshed values
 
 #### drawGraph - Method
 
 draws the Graph into the Image that already contains axes and measures
 
-```blank_image = self.scaled_image.copy()``` copies the Image that the scaling can be reused
-```last_value = self.values[0][0] ``` saves the last value. this value is important for a connecting line between the points
+```python
+blank_image = self.scaled_image.copy()
+```
+copies the Image that the scaling can be reused
 
-```for i in range(self.num_values):``` loop through all saved values
+```python
+last_value = self.values[0][0]
+```
+saves the last value. this value is important for a connecting line between the points
+
+```python
+for i in range(self.num_values):
+```
+loop through all saved values
 
 ```python
 pix_x = i*self.pix_between_value
@@ -260,9 +276,20 @@ if(last_value >= self.max_co2_level):
 ```
 set the y_position to the upper edge of the window when the value is higher than the set threshold
 
-```blank_image[pix_y][pix_x] = self.graph_color``` paint the pixel to the image
-```cv2.line(blank_image,(pix_x,pix_y),(last_pix_x,last_pix_y),self.graph_color,1)``` add a connection line in between pixels
-```last_value = self.values[i][0]``` refresh last value
+```python
+blank_image[pix_y][pix_x] = self.graph_color
+```
+paint the pixel to the image
+
+```python
+cv2.line(blank_image,(pix_x,pix_y),(last_pix_x,last_pix_y),self.graph_color,1)
+```
+add a connection line in between pixels
+
+```python
+last_value = self.values[i][0]
+```
+refresh last value
 
 ```python
 for i in range(1,self.vert_lines):
